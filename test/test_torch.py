@@ -5920,18 +5920,9 @@ else:
         device = torch.device(device)
         for optimizer_ctor in (torch.optim.SGD, torch.optim.Adam, torch.optim.AdamW):
             self._grad_scaling_autocast_test(device=device.type, optimizer_ctor=optimizer_ctor)
-
-    @onlyNativeDeviceTypes
-    def test_grad_scaling_autocast_foreach(self, device):
-        device = torch.device(device)
-        for optimizer_ctor in (torch.optim.SGD, torch.optim.Adam, torch.optim.AdamW):
             self._grad_scaling_autocast_test(device=device.type, optimizer_ctor=optimizer_ctor, optimizer_kwargs={"foreach": True})
-
-    @onlyCUDA
-    def test_grad_scaling_autocast_fused(self, device):
-        device = torch.device(device)
-        for optimizer_ctor in (torch.optim.Adam, torch.optim.AdamW):
             self._grad_scaling_autocast_test(device=device.type, optimizer_ctor=optimizer_ctor, optimizer_kwargs={"fused": True})
+    
 
     # Make sure that the parameters become nonsense when scaled gradients are finite
     # but they get invalidated before `optimizer.step`, after `GradScaler.unscale_`
